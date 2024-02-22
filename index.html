@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            font-size: 20px ;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        #response {
+            margin-top: 10px;
+            font-size: 18px;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Added style to center the text */
+        }
+    </style>
+</head>
+<body>  
+    <form>
+        <input type="file" id="fileInput">
+        <button type="button" onclick="uploadFile()">Upload</button>
+        <p id="response">
+            - Ansh Bhawnani has created a repository to guide those starting their careers in bug bounties. - A security bug is a weakness found in software or hardware elements that can negatively affect confidentiality, integrity, and availability. - A bug bounty program is a reward program offered for uncovering and reporting a bug in a specific software product. - Rewards can range from real money to gift vouchers, depending on the severity of the issue and cost to fix. - To become a successful bug bounty hunter, one must learn key topics such as computer fundamentals, computer networking, operating systems, and programming. - Many resources are available to aid in this learning including books, writeups, blogs, articles, forums, official websites, and YouTube channels. - It is vital to practice through CTF (Capture the Flag) activities and using online and offline labs. - Bug bounty platforms such as Bugcrowd, Hackerone, and Intigriti can be used to crowdsource bounties, while individual programs are operated by companies like Facebook and Google. - The bug bounty report must have a clear title, description, steps to reproduce, proof of concept, and identified impact. - Additional tips include not relying solely on bug bounties for income, staying updated, seeing bug bounties as a way to enhance skills, staying connected to the community, always being helpful, and not being dependent on automation.
+        </p>
+    </form>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            await fetch('http://localhost:5000/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById('response').textContent = data.summary;
+            })
+            .catch(error => {
+                // Handle any errors
+                console.error(error);
+            });
+        }
+    </script>
+</body>
+</html>
